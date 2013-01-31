@@ -1,0 +1,12 @@
+#!/usr/bin/env php
+<?php
+/**
+ *
+ * Unix/Linux 下的命令行脚本引导文件
+ *
+ * @author Joseph Chen <chenliq@gmail.com>
+ * @link http://www.dophin.co/
+ * @copyright 2012-2013
+ */
+
+require_once(dirname(__FILE__).'/cmd.php');

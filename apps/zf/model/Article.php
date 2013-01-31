@@ -1,0 +1,269 @@
+<?php
+/**
+ * 文章模型
+ * Created		: 2012-06-20
+ * Modified		: 2012-06-20
+ * @link		: http://www.hxezf.com
+ * @copyright	: (C) 2011 hxezf.com 
+ * @author		: Joseph Chen (chenliq@gmail.com)
+ */
+class Model_Article extends Model
+{
+	/**
+	 * 表名(不含前缀)
+	 * @var string
+	 */
+	public $_tbl = 'article';
+	/**
+	 * 表名
+	 * @var string
+	 */
+	public $tbl = 'article';
+	/**
+	 * 保存文章内容表
+	 * @var string
+	 */
+	public $tbl_content = 'article_content';
+	/**
+	 * 文章内容保存方式:txt-文本文件内容保存，db-保存到数据库独立的表
+	 * @var string
+	 */
+	public $saveConentType = 'txt';
+	/**
+	 * 文章内容保存到文件中的存储路径
+	 * @var string
+	 */
+	public $saveFilePath = 'article/';
+	/**
+	 * 状态列表
+	 * @var array
+	 */
+	public $statusList = array(
+		-1	=> '删除',
+		0	=> '待审核',
+		1	=> '正常',
+	);
+	
+	public $validation = array(
+		'title'	=> 'require'
+	);
+	
+	/**
+	 * 构造函数
+	 * @param int $id
+	 */
+	public function __construct($id=0) 
+	{
+		if ($id) {
+			$this->data = $this->read($id);
+		}
+		parent::__construct();
+	}
+	
+	/**
+	 * (non-PHPdoc)
+	 * @see Model::read()
+	 */
+	public function read($val=null, $field='', $fetchFields='*')
+	{
+		$detail = parent::read($val, $field, $fetchFields);
+		if (!$detail)
+		{
+			return array();
+		}
+		if ($this->saveConentType == 'txt')
+		{
+			$file = $this->getSaveFile($detail['id']);
+			if (is_file($file))
+			{
+				$detail['content'] = file_get_contents($file);
+			} else {
+				$detail['content'] = '';
+			}
+		} else {
+			$cmo = new Model($tbl_content);
+			$detail['content'] = $cmo->read($detail['id'], 'id', 'content');
+		}
+		return $detail;
+	}
+	
+	/**
+	 * (non-PHPdoc)
+	 * @see Model::save()
+	 */
+	public function save($data=null)
+	{
+		if (!$data['id'])
+		{
+			$data['create_time'] = time();
+		}
+			
+		$result = parent::save($data);
+		if (!$result)
+		{
+			return false;
+		}
+		if ($this->lastInsertId)
+		{
+			$id = $this->lastInsertId;
+		} else {
+			$id = $data[$this->priKey];
+		}
+		if (isset($data['content']))
+		{
+			if ($this->saveConentType == 'txt')
+			{
+				$file = $this->getSaveFile($id);
+				if (!is_dir($dir=dirname($file)))
+				{
+					mkdir($dir, 0777, true);
+				}
+				file_put_contents($file, $data['content']);
+			} else {// 保存到数据
+				$content = array(
+					'id'		=> $id,
+					'content'	=> $data['content']
+				);
+				$result = Db::replace($this->tbl_content, $content);
+			}
+		}
+		return $result;
+	}
+	
+	/**
+	 * 获取列表
+	 * @param array $options
+	 * array(
+	 * 	'game_id'	=> $game_id,// 游戏ID
+	 * 	'cid'		=> $cid,// 分类ID
+	 * 	'keyword'	=> $keyword,// 关键字
+	 * 	'post_time'	=> $post_time,// 发布日期
+	 * 	'post_time2'=> $post_time2,// 发布日期截止时间
+	 * 	'status'	=> $status,// 状态
+	 * 	'order'		=> $order,// 获取记录数
+	 * 	'limit'		=> $limit,// 获取记录数
+	 * 	'has_page'	=> $has_page,// 是否分页
+	 *  'fields'	=> $fields//字段列表
+	 * )
+	 */
+	public function getList($options=array()) 
+	{
+		extract($options);
+		if (!isset($fields)) {
+			$fields = 'id,title,title_image,post_time';
+		}
+		// 按状态查询,默认全部
+		if (isset($status) && !is_null($status) && ctype_digit((string)$status)) {
+			$where = 'status='.$status;
+		}
+		// 指定日期,则按发布时间属于指定日期查询
+		if (isset($post_time)) {
+			if (ctype_digit((string)$post_time)) {
+				$day = strtotime(date('Y-m-d', $post_time));
+			} else {
+				$day = strtotime($post_time);
+			}
+		}
+		if (isset($post_time2)) {
+			if (ctype_digit((string)$post_time2)) {
+				$endDay = strtotime(date('Y-m-d', $post_time2));
+			} else {
+				$endDay = strtotime($post_time2);
+			}
+		}
+		// 同时指定查询起止时间
+		if (isset($post_time) && isset($post_time2)) {
+			$w = 'post_time>='.$day.' and post_time<'.$endDay;
+			$where = isset($where) ? $where.' and '.$w : $w;
+		}
+		// 只指定发布时间起始范围
+		else if (isset($post_time)) {
+			$w = 'post_time>='.$day;
+			$where = isset($where) ? $where.' and '.$w : $w;
+		}
+		// 只指定发布时间截止范围
+		else if (isset($post_time2)) {
+			$w = 'post_time<'.($endDay + 86400);
+			$where = isset($where) ? $where.' and '.$w : $w;
+		}
+		// 分类查询
+		if (isset($cid) && ctype_digit((string)$cid)) {
+			$where = isset($where) ? $where.' and cid='.$cid : 'cid='.$cid;
+		}
+		// 关键字查询
+		if (isset($keyword)) {
+			$w = 'FIND_IN_SET(:keyword, `keywords`)';
+			$where = isset($where) ? $where.' and '.$w : $w;
+			$params = array('keyword' => $keyword);
+		} else {
+			$params = null;
+		}
+		if (!isset($where)) {
+			$where = null;
+		}
+		if (!isset($limit)) {
+			$limit = $this->pageSize;
+		}
+		if (!isset($order)) {
+			$order = 'post_time desc';
+		}
+		// 是否有分页
+		if (isset($has_page) && $has_page) {
+			$rows = $this->where($where)->params($params)->count();
+			Page::init($limit, $rows);
+			$this->pagePanel = Page::generateHTML();
+			$start = Page::$from;
+			$limit = Page::$to;
+		} else {
+			$start = 0;
+		}
+		
+		$list = $this->field($fields)->where($where)->params($params)
+					->order($order)->limit($limit, $start)->select();
+		return $list;
+	}
+	
+	/**
+	 * 获取文章内容保存的文件路径
+	 * @param int $id
+	 * @return string
+	 */
+	public function getSaveFile($id)
+	{
+		return APP_PATH.'data'.DS.$this->saveFilePath.$this->saveConentType.DS
+				.floor($id/1000).DS.$id.'.txt';
+	}
+	
+	/**
+	 * 获取文章ID对应的HTML静态页路径
+	 * @param int $id
+	 * @param string $filename
+	 * @return string
+	 */
+	public function getHtmlFile($id, $filename='') 
+	{
+		if (!$filename)
+		{
+			$filename = UMath::idCrypt($id);
+		}
+		return WEB_PATH.'html/a/'.floor($id/1000000).'/'
+				.floor(($id%1000000)/1000).'/'.$filename.'.html';
+	}
+	
+	/**
+	 * 获取文章ID对应的HTML静态页URL
+	 * @param int $id
+	 * @param string $filename
+	 * @return string
+	 */
+	public function getHtmlUrl($id, $filename='') 
+	{
+		if (!$filename)
+		{
+			$filename = UMath::idCrypt($id);
+		}
+		return 'html/a/'.floor($id/1000000).'/'
+				.floor(($id%1000000)/1000).'/'.$filename.'.html';
+	}
+	
+}
