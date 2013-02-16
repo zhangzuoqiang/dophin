@@ -25,7 +25,6 @@ class Controller_Index extends Controller
 	{
 		$arr = [3234, 'abc'];
 		echo '<pre>';
-		var_export($arr);
 		exit;
 		$mo = new Model_Article();
 		//获取新闻公告列表

@@ -124,18 +124,33 @@ class Core
 			return true;
 		}
 		
-		self::initController();
+		self::parseController();
 		
 		self::dispatch();
 		
 		return true;
 	}
 	
-	public static function initController()
+	public static function parseController()
 	{
-		if (!self::initControllerFromPathInfo())
+		switch ($GLOBALS['_parse_controller_type']) 
 		{
-// 			self::initControllerFromGetParams();
+			case 'PATH_INFO':
+				self::parseControllerFromPathInfo();
+			break;
+			
+			case 'URL_PARAMS':
+				self::parseControllerFromGetParams();
+			break;
+			
+			default:
+				self::throwError(
+						'incorrect_config',
+						__FILE__,
+						__LINE__,
+						$args
+				);
+			break;
 		}
 		
 
@@ -197,13 +212,13 @@ class Core
 	 * 
 	 * @return boolean
 	 */
-	private static function initControllerFromPathInfo()
+	private static function parseControllerFromPathInfo()
 	{
 		if (empty($_SERVER['REQUEST_URI']) || $_SERVER['REQUEST_URI'] == '/')
 		{
 			self::$co = 'index';
 			self::$do = 'index';
-			return false;
+			return true;
 		}
 		if (false !== strpos($_SERVER['REQUEST_URI'], '-'))
 		{
@@ -217,6 +232,10 @@ class Core
 		if (false === strpos($REQUEST_URI, '/') && ctype_alpha($REQUEST_URI))
 		{
 			self::$co = $REQUEST_URI;
+		} else if (preg_match('/[^\/]+\.php/i', $REQUEST_URI))	{
+			self::$co = 'index';
+			self::$do = 'index';
+			return true;
 		} else {
 			$router = explode('/', $REQUEST_URI);
 			self::$co = $router[0];
@@ -257,7 +276,7 @@ class Core
 	/**
 	 * 从URL参数获取控制器入口
 	 */
-	private static function initControllerFromGetParams()
+	private static function parseControllerFromGetParams()
 	{
 		
 	}
@@ -659,20 +678,6 @@ function C($cfgName, $cfgVal=null)
 			$GLOBALS[$cfgName] = $cfgVal;
 			return true;
 		}
-	}
-}
-
-/**
- * 命令行下输出代码
- * @param string $str
- */
-function cmd_print($str)
-{
-	if (!defined('CMD_CHARSET') || strtoupper(CMD_CHARSET) != 'UTF-8')
-	{
-		echo iconv('utf-8', 'gbk', $str);
-	} else {
-		echo $str;
 	}
 }
 

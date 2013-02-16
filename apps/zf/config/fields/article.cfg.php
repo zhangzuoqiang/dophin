@@ -1,0 +1,157 @@
+<?php return array (
+  'id' => 
+  array (
+    'Type' => 'int',
+    'Null' => 'NO',
+    'Key' => 'PRI',
+    'Default' => NULL,
+    'Extra' => 'auto_increment',
+    'Comment' => '',
+    'Unsigned' => true,
+    'Length' => '10',
+  ),
+  'cid' => 
+  array (
+    'Type' => 'int',
+    'Null' => 'NO',
+    'Key' => 'MUL',
+    'Default' => '0',
+    'Extra' => '',
+    'Comment' => '文章分类id',
+    'Unsigned' => true,
+    'Length' => '10',
+  ),
+  'views' => 
+  array (
+    'Type' => 'mediumint',
+    'Null' => 'NO',
+    'Key' => '',
+    'Default' => '0',
+    'Extra' => '',
+    'Comment' => '浏览数(点击数)',
+    'Unsigned' => true,
+    'Length' => '8',
+  ),
+  'title' => 
+  array (
+    'Type' => 'varchar',
+    'Null' => 'NO',
+    'Key' => '',
+    'Default' => '',
+    'Extra' => '',
+    'Comment' => '标题',
+    'Unsigned' => false,
+    'Length' => '150',
+  ),
+  'title_image' => 
+  array (
+    'Type' => 'varchar',
+    'Null' => 'NO',
+    'Key' => '',
+    'Default' => '',
+    'Extra' => '',
+    'Comment' => '标题图片',
+    'Unsigned' => false,
+    'Length' => '255',
+  ),
+  'keywords' => 
+  array (
+    'Type' => 'varchar',
+    'Null' => 'NO',
+    'Key' => '',
+    'Default' => '',
+    'Extra' => '',
+    'Comment' => '关键字',
+    'Unsigned' => false,
+    'Length' => '255',
+  ),
+  'brief' => 
+  array (
+    'Type' => 'varchar',
+    'Null' => 'NO',
+    'Key' => '',
+    'Default' => NULL,
+    'Extra' => '',
+    'Comment' => '摘要',
+    'Unsigned' => false,
+    'Length' => '255',
+  ),
+  'editor_uid' => 
+  array (
+    'Type' => 'int',
+    'Null' => 'NO',
+    'Key' => '',
+    'Default' => '0',
+    'Extra' => '',
+    'Comment' => '负责编辑人员',
+    'Unsigned' => true,
+    'Length' => '10',
+  ),
+  'editor' => 
+  array (
+    'Type' => 'varchar',
+    'Null' => 'NO',
+    'Key' => '',
+    'Default' => '',
+    'Extra' => '',
+    'Comment' => '负责编辑人员',
+    'Unsigned' => false,
+    'Length' => '45',
+  ),
+  'post_time' => 
+  array (
+    'Type' => 'int',
+    'Null' => 'NO',
+    'Key' => 'MUL',
+    'Default' => '0',
+    'Extra' => '',
+    'Comment' => '发布时间',
+    'Unsigned' => true,
+    'Length' => '10',
+  ),
+  'create_time' => 
+  array (
+    'Type' => 'int',
+    'Null' => 'NO',
+    'Key' => '',
+    'Default' => '0',
+    'Extra' => '',
+    'Comment' => '创建时间(后台创建)',
+    'Unsigned' => true,
+    'Length' => '10',
+  ),
+  'status' => 
+  array (
+    'Type' => 'tinyint',
+    'Null' => 'NO',
+    'Key' => '',
+    'Default' => '0',
+    'Extra' => '',
+    'Comment' => '状态:-1-已删除;0-待审核;1-正常',
+    'Unsigned' => false,
+    'Length' => '4',
+  ),
+  'html_file' => 
+  array (
+    'Type' => 'varchar',
+    'Null' => 'NO',
+    'Key' => '',
+    'Default' => '',
+    'Extra' => '',
+    'Comment' => '生成的静态页路径',
+    'Unsigned' => false,
+    'Length' => '100',
+  ),
+  'redirect' => 
+  array (
+    'Type' => 'varchar',
+    'Null' => 'NO',
+    'Key' => '',
+    'Default' => '',
+    'Extra' => '',
+    'Comment' => '跳转url',
+    'Unsigned' => false,
+    'Length' => '100',
+  ),
+  '_PRI_' => 'id',
+);

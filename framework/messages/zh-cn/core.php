@@ -13,6 +13,7 @@ return array(
 	'handle_success'	=> '操作成功',
 	'handle_failed'		=> '操作失败',
 	
+	'incorrect_config' 				=> '系统配置出错。',
 	'invalid_request' 				=> '您的请求无效。',
 	'incorrect_verification_code'	=> '验证码不正确.',
 	

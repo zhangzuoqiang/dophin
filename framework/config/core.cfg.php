@@ -16,6 +16,7 @@ $_template_engine		= 'dophin';
 $_template_auto_compile	= false;
 $_output_process_time	= false;
 $_mathcode_start_value	= 8584334;
+$_parse_controller_type	= 'PATH_INFO';
 
 /**
  * 数据库配置

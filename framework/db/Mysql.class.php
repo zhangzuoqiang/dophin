@@ -345,9 +345,6 @@ class Mysql
 			$ret = $this->stmt->fetch($fetchStyle, PDO::FETCH_ORI_FIRST);
 		}
 		
-		if (!$ret) {
-			$ret = array();
-		}
 		// 取完数据要关闭游标,避免表被锁定
 		$this->stmt->closeCursor();
 		$this->stmt = null;
