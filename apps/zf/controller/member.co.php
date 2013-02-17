@@ -3,8 +3,8 @@
  * 会员相关控制器
  * Created		: 2012-05-30
  * Modified		: 2012-06-20
- * @link		: http://www.hxezf.com
- * @copyright	: (C) 2011 hxezf.com 
+ * @link		: http://www.fzzf.co
+ * @copyright	: (C) 2011 fzzf.co 
  * @author		: Joseph Chen (chenliq@gmail.com)
  */
 class Controller_Member extends Controller

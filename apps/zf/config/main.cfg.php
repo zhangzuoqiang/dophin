@@ -33,7 +33,7 @@ $_cache_auth		= '2012+abc!=2010';
  */
 $_cookie_expire		= '3600';
 $_cookie_path		= '/';
-$_cookie_domain		= '.hxezf.com';
+$_cookie_domain		= '.fzzf.co';
 
 /**
  * session相关
@@ -61,7 +61,7 @@ $_money_gold_rate = 10;
  * 链接地址
  */
 // $_img_url = 'http://img.house.x/';
-$_img_url = 'http://www.hxezf.com/images/';
+$_img_url = 'http://www.fzzf.co/images/';
 
 
 

@@ -13,4 +13,4 @@ $_db_pass		= '123456';
 /**
  * 链接地址
  */
-$_img_url = 'http://w.hxezf.com/images/';
+$_img_url = 'http://w.fzzf.co/images/';

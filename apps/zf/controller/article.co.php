@@ -3,8 +3,8 @@
  * 文章
  * Created		: 2012-11-08
  * Modified		: 2012-11-08
- * @link		: http://www.hxezf.com
- * @copyright	: (C) 2011 hxezf.com 
+ * @link		: http://www.fzzf.co
+ * @copyright	: (C) 2011 fzzf.co 
  * @version		: 1.0.0
  * @author		: Joseph Chen (chenliq@gmail.com)
  */
