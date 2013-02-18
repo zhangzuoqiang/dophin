@@ -373,6 +373,35 @@ create table `housing_estate` (
 
 
 -- -----------------------------------------------------
+-- 
+-- 采集房源列表
+-- -----------------------------------------------------
+drop table if exists ``;
+create table `let_house` (
+  `id` int unsigned not null auto_increment,
+  `title` varchar(100) not null default '' comment '标题',
+  `title_image` varchar(100) not null default '' comment '标题图片',
+  `he_id` int unsigned not null default 0 comment '所属小区ID',
+  `he_name` varchar(30) not null default '' comment '所属小区名称',
+  `county_id` int unsigned not null default 0 comment '所属区县ID',
+  `district_id` int unsigned not null default 0 comment '所属区域ID',
+  `district_name` varchar(30) not null default '' comment '所属区域名称',
+  `room` tinyint unsigned not null default 0 comment '室',
+  `hall` tinyint unsigned not null default 0 comment '厅',
+  `washroom` tinyint unsigned not null default 0 comment '卫',
+  `area` smallint unsigned not null default 0 comment '面积（整租为全部面积，合租为单间面积）',
+  `house_property` tinyint unsigned not null default 0 comment '住宅性质：普通公寓，别墅，商住两用，平房，四合院',
+  `fitment` tinyint unsigned not null default 0 comment '装修情况：毛坏，简装，中装，精装，豪装',
+  `face` tinyint unsigned not null default 0 comment '朝向',
+  `equipment` varchar(200) not null default '' comment '配套设备',
+  `status` tinyint unsigned not null default 0 comment '状态',
+  `update_time` smallint unsigned not null default 0 comment '更新时间',
+  `create_time` int unsigned not null default 0 comment '发布时间',
+  primary key  (`id`)
+) engine=innodb default charset=utf8 comment='采集房源列表';
+
+
+-- -----------------------------------------------------
 -- let_house
 -- 出租房源
 -- -----------------------------------------------------

@@ -15,12 +15,12 @@ ini_set('default_socket_timeout', -1);
 class SpiderCommand
 {
 	
-	public function _58($param) 
+	public function _58() 
 	{
 		;
 	}
 	
-	public function ganji($param) 
+	public function ganji() 
 	{
 		;
 	}
