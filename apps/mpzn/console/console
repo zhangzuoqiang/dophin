@@ -1,0 +1,5 @@
+#!/usr/bin/env php54
+<?php
+ini_set('display_errors', 1);
+error_reporting(2047);
+require dirname(__FILE__).'/console.php';

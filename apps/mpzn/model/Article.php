@@ -3,8 +3,8 @@
  * 文章模型
  * Created		: 2012-06-20
  * Modified		: 2012-06-20
- * @link		: http://www.fzzf.co
- * @copyright	: (C) 2011 fzzf.co 
+ * @link		: http://www.mpzn.co
+ * @copyright	: (C) 2011 mpzn.co 
  * @author		: Joseph Chen (chenliq@gmail.com)
  */
 class Model_Article extends Model
@@ -30,10 +30,15 @@ class Model_Article extends Model
 	 */
 	public $saveConentType = 'txt';
 	/**
-	 * 文章内容保存到文件中的存储路径
+	 * 文章内容以文本文件保存时的存储路径，相对于应用根路径
 	 * @var string
 	 */
-	public $saveFilePath = 'article/';
+	public $saveContentPath = 'article';
+	/**
+	 * 保存文章内容，静态页等相关文件路径的ID基数
+	 * @var int
+	 */
+	public $pathRadix = 200;
 	/**
 	 * 状态列表
 	 * @var array
@@ -57,6 +62,12 @@ class Model_Article extends Model
 		if ($id) {
 			$this->data = $this->read($id);
 		}
+		if ($GLOBALS['_path_radix'])
+		{
+			$this->pathRadix = $GLOBALS['_path_radix'];
+		}
+		$this->saveContentType = $GLOBALS['_save_article_content_type'];
+		$this->saveContentPath = $GLOBALS['_save_article_content_path'];
 		parent::__construct();
 	}
 	
@@ -71,7 +82,7 @@ class Model_Article extends Model
 		{
 			return array();
 		}
-		if ($this->saveConentType == 'txt')
+		if ($this->saveContentType == 'txt')
 		{
 			$file = $this->getSaveFile($detail['id']);
 			if (is_file($file))
@@ -81,8 +92,8 @@ class Model_Article extends Model
 				$detail['content'] = '';
 			}
 		} else {
-			$cmo = new Model($tbl_content);
-			$detail['content'] = $cmo->read($detail['id'], 'id', 'content');
+			$mo = new Model($tbl_content);
+			$detail['content'] = $mo->read($detail['id'], 'id', 'content');
 		}
 		return $detail;
 	}
@@ -111,7 +122,7 @@ class Model_Article extends Model
 		}
 		if (isset($data['content']))
 		{
-			if ($this->saveConentType == 'txt')
+			if ($this->saveContentType == 'txt')
 			{
 				$file = $this->getSaveFile($id);
 				if (!is_dir($dir=dirname($file)))
@@ -230,8 +241,9 @@ class Model_Article extends Model
 	 */
 	public function getSaveFile($id)
 	{
-		return APP_PATH.'data'.DS.$this->saveFilePath.$this->saveConentType.DS
-				.floor($id/1000).DS.$id.'.txt';
+		return APP_PATH.'data'.DS.$this->saveContentPath.DS
+				.$this->saveContentType.DS
+				.String::getIdRadixPath($id, $this->pathRadix).DS.$id.'.txt';
 	}
 	
 	/**
@@ -244,10 +256,9 @@ class Model_Article extends Model
 	{
 		if (!$filename)
 		{
-			$filename = UMath::idCrypt($id);
+			$filename = String::idCrypt($id);
 		}
-		return WEB_PATH.'html/a/'.floor($id/1000000).'/'
-				.floor(($id%1000000)/1000).'/'.$filename.'.html';
+		return WEB_PATH.'html/a/'.String::getIdRadixPath($id, $this->pathRadix).'/'.$filename.'.html';
 	}
 	
 	/**
@@ -260,10 +271,9 @@ class Model_Article extends Model
 	{
 		if (!$filename)
 		{
-			$filename = UMath::idCrypt($id);
+			$filename = String::idCrypt($id);
 		}
-		return 'html/a/'.floor($id/1000000).'/'
-				.floor(($id%1000000)/1000).'/'.$filename.'.html';
+		return 'html/a/'.String::getIdRadixPath($id, $this->pathRadix).'/'.$filename.'.html';
 	}
 	
 }

@@ -16,6 +16,11 @@ class UMath
 	 */
 	public static function dec2any($num, $base=62)
 	{
+		if (!ctype_digit($num) && !is_int($num))
+		{
+			debug_print_backtrace();
+			exit;
+		}
 		if ($base==62)
 		{
 			$index = self::$radixStr;

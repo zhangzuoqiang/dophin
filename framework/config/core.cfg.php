@@ -17,6 +17,11 @@ $_template_auto_compile	= false;
 $_output_process_time	= false;
 $_mathcode_start_value	= 8584334;
 $_parse_controller_type	= 'PATH_INFO';
+/**
+ * 保存相关文件路径的ID基数
+ * @var int
+ */
+$_path_radix = 1000;
 
 /**
  * 数据库配置
@@ -78,17 +83,31 @@ $_password_minlen		= 3;
 $_password_maxlen		= 16;
 
 /**
- * 充值
+ * 经济系统相关
  */
-// 订单号类型：1-纯数字（含日期时间），2-sha1加密字符串，3-随机数加MD5唯一id字符串
-$_orderno_type	= 1;
+// 人民币对应金币的汇率
+$_money_gold_rate = 10;
 
+
+/**
+ * 文章系统
+ */
+/**
+ * 文章内容保存方式:txt-文本文件内容保存，db-保存到数据库独立的表
+ * @var string
+ */
+$_save_article_content_type = 'txt';
+/**
+ * 文章内容以文本文件保存时的存储路径，相对于应用根路径
+ * @var string
+ */
+$_save_article_content_path = 'article';
 
 /**
  * 系统其他
  */
 $_same_password_key = 'EZq2zSdpBsZu8VmwhTnCJC';
-$_id_crypt_cipher = 'TjSjMhhlcKdvtp';
-$_id_crypt_salt = 'LkYkO7M';
+$_id_crypt_key = 'SNcEzNXzk3fg';
+$_id_crypt_slice_pos = 6;
 
 

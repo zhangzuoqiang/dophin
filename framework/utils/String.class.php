@@ -64,55 +64,38 @@ class String
 	}
 
 	/**
+	 * 获取ID基数的路径
+	 * @param number $id
+	 * @param number $lvl
+	 */
+	public static function getIdRadixPath($id, $radix=1000, $lvl=3)
+	{
+		$str = '';
+		for ($i=0; $i<$lvl; $i++)
+		{
+			$str .= floor($id/$radix).'/';
+		}
+		return $str;
+	}
+	
+	/**
 	 * 将一个ID编码
 	 * @param int $id
 	 */
 	public static function idEncode($id)
 	{
-		$id = (string)$id;
-		$len = strlen($id);
-		$len36 = base_convert($len, 10, 36);
-		$str = $len36;
-		if ($len > 6)
+		$idLen = strlen($id);
+		$_len = $idLen;
+		$str = $id;
+		$minLen = $GLOBALS['_id_encode_minlen'];
+		while(true)
 		{
-			$start = 1;
-			while(true)
-			{
-				$digit = substr($id, $start-1, 3);
-				$rnd = mt_rand(1064, 3097);
-				$str .= UMath::dec2any($rnd).UMath::dec2any($rnd - (int)$digit);
-	
-				$start += 3;
-				if ($start >= $len)
-				{
-					break;
-				}
-			}
-		} else if ($len > 4) {
-			$start = 1;
-			while(true)
-			{
-				$digit = substr($id, $start-1, 3);
-				$rndLen = rand(1, 4);
-				$rnd = mt_rand(pow(64, $rndLen-1)+1, pow(64, $rndLen));
-				$tmp = UMath::dec2any($rnd);
-				$value = $digit + $rnd;
-				$total = UMath::dec2any($value);
-				$str .= $rndLen.$tmp.strlen($total).$total;
-	
-				$start += 3;
-				if ($start >= $len)
-				{
-					break;
-				}
-			}
-		} else {
-			$rnd = mt_rand(110, 30592);
-			$value = $id * $rnd;
-			$tmp = UMath::dec2any($rnd);
-			$str .= strlen($tmp).$tmp.UMath::dec2any($value);
+			if ($_len>=$minLen) break;
+			$str .= substr($GLOBALS['_id_encode_salt_digit'], 0, $minLen-$_len);
+			$_len += $idLen;
 		}
-		return $str;
+		$str = UMath::dec2any($str);
+		return substr($str, -3).UMath::dec2any($idLen+20).substr($str, 0, -3);
 	}
 	
 	/**
@@ -121,52 +104,10 @@ class String
 	 */
 	public static function idDecode($str)
 	{
-		$id = '';
-		$len = strlen($str);
-		$idLen = base_convert(substr($str, 0, 1), 36, 10);
-		
-		if ($idLen > 4)
-		{
-			$pos = 1;
-			while(true)
-			{
-				$rnd = substr($str, $pos, 2);
-				$pos += 2;
-				$value = substr($str, $pos, 2);
-				$pos += 2;
-				$value = UMath::dec2any($rnd) - UMath::dec2any($value);
-				$id .= $value;
-				if ($pos >= $len)
-				{
-					break;
-				}
-			}
-		} else if ($idLen > 4) {
-			$pos = 1;
-			while(true)
-			{
-				$rndLen = substr($str, $pos, 1);
-				$pos++;
-				$rnd = UMath::dec2any(substr($str, $pos, $rndLen));
-				$pos += $rndLen;
-				$totalLen = substr($str, $pos, 1);
-				$pos++;
-				$total = UMath::dec2any(substr($str, $pos, $totalLen));
-				$value = $total - $rnd;
-				$id .= $value;
-				$pos += $totalLen;
-				if ($pos >= $len)
-				{
-					break;
-				}
-			}
-		} else {
-			$rndLen = substr($str, 1, 1);
-			$rnd = UMath::dec2any(substr($str, 2, $rndLen));
-			$value = UMath::dec2any(substr($str, 2+$rndLen));
-			$id = $value / $rnd;
-		}
-		return $id;
+		$idLen = UMath::any2dec(substr($str, 3, 1))-20;
+		$str = substr($str, 4).substr($str, 0, 3);
+		$value = UMath::any2dec($str);
+		return substr($value, 0, $idLen);
 	}
 
 	/**
@@ -245,7 +186,6 @@ class String
 	public static function idCrypt($id)
 	{
 		$key = self::idCryptKey();
-// 		$salt = str_shuffle($key);
 		$salt = strrev($key);
 		$char = substr($salt, 0, 1);
 		// 强制salt首字符为字母
@@ -256,11 +196,17 @@ class String
 		}
 
 		$len = strlen($id);
+		$lenChar = UMath::dec2any($len);
 		$str = '';
 		$keyLen = strlen($key);
 		if ($len < $keyLen)
 		{
 			$id .= substr($salt, 0, $keyLen-$len);
+		} else if ($len >= $keyLen) {
+			$key .= substr($key, 0, $len-$keyLen+1);
+			$keyLen = strlen($key);
+			// $id 后一定要有附加串，避免最后一位为0且长度大于key时无法识别
+			$id .= $char;
 		}
 		for ($i=0; $i<$keyLen; $i++)
 		{
@@ -275,8 +221,15 @@ class String
 			$tmp = UMath::dec2any($sum);
 			$str .= $tmp;
 		}
-		
-		$str = substr($str, -6).substr($str, 0, -6);
+
+		if ($GLOBALS['_id_crypt_slice_pos'])
+		{
+			$pos = $GLOBALS['_id_crypt_slice_pos'];
+			$str = substr($str, -$pos).$lenChar.substr($str, 0, -$pos);
+		} else {
+			$pos = floor(strlen($str)/2);
+			$str = substr($str, 0, $pos).$lenChar.substr($str, $pos);
+		}
 		
 		return $str;
 	}
@@ -289,27 +242,45 @@ class String
 	public static function idDeCrypt($str)
 	{
 		$key = self::idCryptKey();
+		$keyLen = strlen($key);
 		$id = '';
 		$strLen = strlen($str);
+		if ($keyLen < $strLen)
+		{
+			$key .= substr($key, 0, $strLen-$keyLen+1);
+		}
 		$ki = 0;
-		$str = substr($str, 6).substr($str, 0, 6);
+		if ($GLOBALS['_id_crypt_slice_pos'])
+		{
+			$pos = $GLOBALS['_id_crypt_slice_pos'];
+			$idLen = UMath::any2dec(substr($str, $pos, 1));
+			$str = substr($str, $pos+1).substr($str, 0, $pos);
+		} else {
+			$pos = floor((strlen($str)-1)/2);
+			$idLen = UMath::any2dec(substr($str, $pos, 1));
+			$str = substr($str, 0, $pos).substr($str, $pos+1);
+		}
 		for ($i=0; $i<$strLen; $i++,$ki++)
 		{
 			$val = UMath::any2dec($str[$i]);
 			$kVal = UMath::any2dec($key[$ki]);
 			if ($val < $kVal)
 			{
-				$val = UMath::any2dec($str[$i].$str[$i+1]);
+				
+				if (isset($str[$i+1]))
+				{
+					$val = UMath::any2dec($str[$i].$str[$i+1]);
+				} else {
+					$val = UMath::any2dec($str[$i]);
+				}
 				$i++;
 			}
 			$tmp = $val - $kVal;
-			if ($tmp > 9)
+			if (strlen($id) == $idLen)
 			{
-				// 值大于9，说明是附加串了，不需要再获取了，跳出循环
 				break;
-			} else {
-				$id .= $tmp;
 			}
+			$id .= $tmp;
 		}
 
 		return $id;
