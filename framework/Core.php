@@ -28,7 +28,7 @@ defined('CORE_PATH') or define('CORE_PATH',dirname(__FILE__).DS);
 
 //初始化配置
 include CORE_PATH.'config/core.cfg.php';
-include APP_PATH.'config'.DS.'main.cfg.php';
+include APP_PATH.'config/main.cfg.php';
 
 /**
  * 定义程序是否调试模式

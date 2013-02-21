@@ -1,0 +1,9 @@
+http://lib.sinaapp.com/?path=/jquery
+
+http://lib.sinaapp.com/js/jquery/1.9.1/jquery.min.js
+
+http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js
+
+http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.9.1.min.js
+
+http://code.jquery.com/jquery-1.9.1.min.js

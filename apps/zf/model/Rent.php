@@ -34,7 +34,7 @@ class Model_Rent extends Model
 	 * 	'keyword'	=> $keyword,// 关键字
 	 * 	'post_time'	=> $post_time,// 发布日期
 	 * 	'status'	=> $status,// 状态
-	 * 	'order'		=> $order,// 获取记录数
+	 * 	'order'		=> $order,// 排序字段
 	 * 	'limit'		=> $limit,// 获取记录数
 	 * 	'has_page'	=> $has_page,// 是否分页
 	 *  'fields'	=> $fields//字段列表
@@ -112,7 +112,7 @@ class Model_Rent extends Model
 		{
 			$rows = $this->where($where)->params($params)->count();
 			Page::init($limit, $rows);
-			$this->pagePanel = Page::generateHTML();
+			$this->pagePanel = Page::generateBarCode();
 			$start = Page::$from;
 			$limit = Page::$to;
 		} else {

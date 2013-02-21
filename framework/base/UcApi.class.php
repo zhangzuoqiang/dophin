@@ -4,7 +4,7 @@
  *
  * Created		: 2012-01-14
  * Modified		: 2012-01-14
- * @link		: http://www.mp920.com
+ * @link		: http://www.mp99.cn
  * @copyright	: (C) 2012 Dophin 
  * @version		: 0.0.1
  * @author		: Joseph Chen (chenliq@gmail.com)

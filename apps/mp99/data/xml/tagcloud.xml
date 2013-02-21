@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<root>
+<item type="text" detail="五四北" link="http://www.baidu.com/" color="0xff0099" weight="40" />
+<item type="text" detail="铜盘" link="http://www.baidu.com/" weight="40" />
+<item type="text" detail="温泉公园" link="http://www.baidu.com/" weight="40" />
+<item type="text" detail="七星井" link="http://www.baidu.com/" weight="40" />
+<item type="text" detail="洋下新村" link="http://www.weibo.com/" weight="40" />
+<item type="text" detail="火车站" link="http://t.qq.com/" weight="40" />
+<item type="text" detail="金山" link="http://t.qq.com/" weight="40" />
+</root>

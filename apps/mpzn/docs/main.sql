@@ -263,7 +263,7 @@ create table `links` (
   `name` varchar(100) not null comment '链接名称',
   `url` varchar(50) not null comment '链接目标URL',
   `cid` smallint unsigned not null default '1' comment '所属分类ID',
-  `cname` varchar(16) not null comment '所属分类名词',
+  `cname` varchar(16) not null comment '所属分类名称',
   `note` varchar(255) default NULL comment '链接简介',
   `status` int unsigned not null default 0 comment '状态',
   primary key  (`id`)

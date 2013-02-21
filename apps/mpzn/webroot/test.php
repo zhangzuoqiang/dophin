@@ -44,6 +44,8 @@ echo String::idDecode($str);
 echo "\n";
 echo microtime(1) - $start;
 // echo UMath::dec2any(2821109907456, 10, 36);
+
+Db::_db();
 exit;
 
 

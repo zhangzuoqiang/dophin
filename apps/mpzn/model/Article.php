@@ -145,13 +145,12 @@ class Model_Article extends Model
 	 * 获取列表
 	 * @param array $options
 	 * array(
-	 * 	'game_id'	=> $game_id,// 游戏ID
 	 * 	'cid'		=> $cid,// 分类ID
 	 * 	'keyword'	=> $keyword,// 关键字
 	 * 	'post_time'	=> $post_time,// 发布日期
 	 * 	'post_time2'=> $post_time2,// 发布日期截止时间
 	 * 	'status'	=> $status,// 状态
-	 * 	'order'		=> $order,// 获取记录数
+	 * 	'order'		=> $order,// 排序字段
 	 * 	'limit'		=> $limit,// 获取记录数
 	 * 	'has_page'	=> $has_page,// 是否分页
 	 *  'fields'	=> $fields//字段列表
@@ -222,7 +221,7 @@ class Model_Article extends Model
 		if (isset($has_page) && $has_page) {
 			$rows = $this->where($where)->params($params)->count();
 			Page::init($limit, $rows);
-			$this->pagePanel = Page::generateHTML();
+			$this->pagePanel = Page::generateBarCode();
 			$start = Page::$from;
 			$limit = Page::$to;
 		} else {

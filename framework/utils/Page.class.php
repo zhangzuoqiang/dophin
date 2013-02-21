@@ -202,7 +202,7 @@ class Page
 	 * @param $tpl
 	 * @return string
 	 */
-	public static function generateHTML($param=array(), $type=0, $tpl='')
+	public static function generateBarCode($param=array(), $type=0, $tpl='')
 	{
 		self::parseQs();//处理url参数
 

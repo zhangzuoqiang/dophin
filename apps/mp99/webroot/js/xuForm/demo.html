@@ -1,0 +1,100 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>xuForm表单美化插件0.1</title>
+<style>
+*{margin:0;padding:0;font-size:12px;font-family:Arial,Helvetica,sans-serif}
+ul{list-style:none}
+body,html{line-height:22px}
+.box{margin:20px auto;width:300px}
+.box label{display:block;margin-top:20px;width:100%;line-height:22px}
+.xuAuto{width:100%}
+.xuInput{-moz-box-sizing:border-box;box-sizing:border-box;padding:0 10px;height:36px;outline:0;border:1px solid #c5c6c7;border-radius:3px;background:#fdfdfd;box-shadow:1px 1px 1px #dbdbdb inset;color:#888;vertical-align:middle;line-height:22px;webkit-box-sizing:border-box}
+.xuInputHover{background:#fafafa}
+.xuSelect{position:relative;-moz-user-select:none;-webkit-user-select:none}
+.xuSelect .xuSelect-fa{position:relative;display:block;height:36px;min-width:50px;border:1px solid #c5c6c7;border-radius:2px;background:#fff;box-shadow:0 1px 2px #dbdbdb;line-height:36px}
+.xuSelect .xuSelect-fa:active{box-shadow:inset 0 0 2px #ccc}
+.xuSelect .xuSelect-fa:hover{background:#fafafa}
+.xuSelect .xuSelect-fa .xuSelect-currt{padding-left:10px}
+.xuSelect .xuSelect-fa i{position:absolute;top:0;right:0;display:block;width:30px;height:36px;background:url(xuFormSplit.png) 3px 0 no-repeat;cursor:pointer}
+.xuSelect .xuSelect-son{position:absolute;z-index:9;display:block;display:none;overflow:auto;max-height:291px;border:1px solid #c5c6c7;border-top:0 none;border-radius:2px;background:#FFF;box-shadow:0 1px 3px #eaeaea}
+.xuSelect .xuSelect-son li{margin:1px;padding:3px 10px;border-radius:2px}
+.xuSelect .xuSelect-son li.odd{background:#fcfcfc}
+.xuSelect .xuSelect-son li.checked{background:#fce99f}
+.xuSelect .xuSelect-son li:hover{background:#3d95d6;color:#FFF}
+.xuTextarea{-moz-box-sizing:border-box;box-sizing:border-box;padding:6px;outline:0;border:1px solid #c5c6c7;border-radius:3px;background:#fdfdfd;box-shadow:1px 1px 1px #dbdbdb inset;color:#888;vertical-align:middle;webkit-box-sizing:border-box}
+.xuTextareaHover{background:#fafafa}
+.xuCheckBox{display:inline-block;margin:0 5px 0 0;width:14px;height:14px;outline:0;border:1px solid #c5c6c7;border-radius:3px;background:#fdfdfd;box-shadow:1px 1px 1px #dbdbdb inset;vertical-align:-3px;-moz-user-select:none;-webkit-user-select:none}
+.xuCheckBox:hover{border:1px solid #ababab;background:#fafafa}
+.xuCheckBox:active{background:#dbdbdb}
+.xuCheckBox .xuichecked{display:block;width:14px;height:14px;background:url(xuFormSplit.png) -8px -40px no-repeat}
+.xuRadio{display:inline-block;margin:0 5px 0 0;width:14px;height:14px;outline:0;border:1px solid #c5c6c7;border-radius:50px;background:#fdfdfd;box-shadow:1px 1px 1px #dbdbdb inset;vertical-align:-4px;-moz-user-select:none;-webkit-user-select:none}
+.xuRadio:hover{border:1px solid #ababab;background:#fafafa}
+.xuRadio:active{background:#dbdbdb}
+.xuRadio .xuiRadio{display:block;width:14px;height:14px;background:url(xuFormSplit.png) -10px -70px no-repeat}
+.xuSubmit{display:inlink-block;padding:6px 15px;border:1px solid #128fd6;border-radius:3px;background:#14a4f5;box-shadow:0 2px 0 #0e72a7;color:#FFF;text-shadow:0 1px 1px #353535;cursor:pointer}
+.xuSubmit:hover{background:#25b3fe}
+.xuSubmit:active{background:#14a4f5;box-shadow:inset 0 2px 2px #128fd6}
+.xuButton{display:inlink-block;padding:6px 20px;border:1px solid #c5c6c7;border-radius:3px;background:#fafafa;box-shadow:0 2px 0 #dbdbdb;color:#898989;text-shadow:0 1px 1px #fafafa;cursor:pointer}
+.xuButton:hover{background:#fff}
+.xuButton:active{background:#fafafa;box-shadow:inset 0 2px 2px #dbdbdb}
+</style>
+<script type="text/javascript" src="jquery-1.8.3.min.js"></script>
+<script type="text/javascript" src="jquery.xuForm.js"></script>
+<script>
+$(function(){
+	$("#form").xuForm({wid:"auto"});
+})
+</script>
+</head>
+
+<body>
+<form id="form" action="" method="post">
+<div class="box">
+	<label>First Name</label>
+    <input name="" type="text" placeholder="enter your name" size="30">
+	<label>Last Name</label>
+	<input name="" type="text" placeholder="enter your name" size="30">
+    <label>Gender</label>
+    <select name="">
+      <option value="11">1</option>
+      <option value="22">2</option>
+      <option value="33">3</option>
+      <option value="44">4</option>
+      <option value="11">5</option>
+      <option value="22">6</option>
+      <option value="33">7</option>
+      <option value="44">8</option>
+      <option value="11">9</option>
+    </select>
+    <label>Birthday</label>
+    <select name="">
+      <option value="11">112</option>
+      <option value="22">233</option>
+      <option value="33">344</option>
+      <option value="44">455</option>
+    </select>
+    <label>About</label>
+    <textarea name="" cols="30" rows="2" placeholder="say"></textarea>
+    <label>CheckBox</label>
+    <input name="" type="checkbox" value="A" checked="checked"/>A
+    <input name="" type="checkbox" value="B" />B
+    <input name="" type="checkbox" value="C" />C
+    <input name="" type="checkbox" value="D" />D
+    <label>Radio</label>
+    <input name="f" type="radio" value="1" checked="checked"/>yes
+    <input name="f" type="radio" value="2"/>no
+    <input name="f" type="radio" value="3"/>i don't know
+    <label></label>
+    <input name="Submit" type="submit" value="Submit"/>
+    <input name="Reset" type="reset" value="Reset"/>
+    <!--Name:xuForm0.1
+    Author xuwei
+    Email xuwei0930@gmail.com
+    Date: 2012-12-13
+    简单的表单美化插件-->
+</div>
+</form>
+</body>
+</html>

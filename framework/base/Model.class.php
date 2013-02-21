@@ -96,6 +96,16 @@ class Model
 	 * @var array
 	 */
 	protected $errors	= null;
+	/**
+	 * 内容保存方式:txt-文本文件内容保存，db-保存到数据库独立的表，''-不做特殊保存处理
+	 * @var string
+	 */
+	public $saveContentType = '';
+	/**
+	 * 内容以文本文件保存时的存储路径，相对于应用根路径
+	 * @var string
+	 */
+	public $saveContentPath = '';
 	
 	/**
 	 * 构造函数
@@ -214,7 +224,7 @@ class Model
 		if (isset($options['has_page']) && $options['has_page']) {
 			$rows = $this->count();
 			Page::init($this->pageSize, $rows);
-			$this->pagePanel = Page::generateHTML();
+			$this->pagePanel = Page::generateBarCode();
 			$options['limit'] = array(Page::$from, Page::$to);
 		} else {
 			$options['limit'] = $this->pageSize;
@@ -257,6 +267,19 @@ class Model
 			Cache::setProperties('outputSetKey', true);
 			Cache::sets($val, $this->data, $this->tbl, null, null, $this->cacheExpire);
 		}
+		if ($this->saveContentType == 'txt')
+		{
+			$file = $this->getSaveFile($detail['id']);
+			if (is_file($file))
+			{
+				$detail['content'] = file_get_contents($file);
+			} else {
+				$detail['content'] = '';
+			}
+		} else if ($this->saveContentType == 'db') {
+			$mo = new Model($tbl_content);
+			$detail['content'] = $mo->read($detail['id'], 'id', 'content');
+		}
 		return (!$this->data) ? array() : $this->data;
 	}
 	
@@ -266,6 +289,10 @@ class Model
 	 */
 	public function save($data=null)
 	{
+		if (!$data[$this->priKey] && isset($this->fields['create_time']))
+		{
+			$data['create_time'] = time();
+		}
 		// 处理数组中的字段
 		$data = $this->data($data);
 		if (!$data) {
@@ -277,13 +304,45 @@ class Model
 			$params = null;
 		}
 		$this->lastInsertId = 0;
+		$op = 'update';
 		if (isset($this->options['where']) && $this->options['where']) {
-			return $this->update($data, $this->options['where'], $params);
+			$result = $this->update($data, $this->options['where'], $params);
 		} else if (isset($data[$this->priKey]) && $data[$this->priKey]) {
-			return $this->update($data, $this->priKey.'='.$data[$this->priKey], $params);
+			$result = $this->update($data, $this->priKey.'='.$data[$this->priKey], $params);
 		} else {
-			return $this->add($data);
+			$result = $this->add($data);
+			$op = 'add';
 		}
+		if ($this->lastInsertId)
+		{
+			$id = $this->lastInsertId;
+		} else {
+			$id = $data[$this->priKey];
+		}
+		if (isset($data['content']))
+		{
+			if ($this->saveContentType == 'txt')
+			{
+				$file = $this->getSaveFile($id);
+				if (!is_dir($dir=dirname($file)))
+				{
+					mkdir($dir, 0777, true);
+				}
+				file_put_contents($file, $data['content']);
+			} else if ($this->saveContentType == 'db') {// 保存到数据
+				$content = array(
+					$this->priKey	=> $id,
+					'content'		=> $data['content']
+				);
+				if ($op == 'add')
+				{
+					$result = Db::insert($this->tbl_content, $content);
+				} else {
+					$result = Db::update($this->tbl_content, $content, $this->priKey.'='.$id);
+				}
+			}
+		}
+		return $result;
 	}
 	
 	/**
@@ -640,6 +699,18 @@ class Model
 			$this->errors = $errors;
 			return $this->errors;
 		}
+	}
+
+	/**
+	 * 获取内容保存的文件路径
+	 * @param int $id
+	 * @return string
+	 */
+	public function getSaveFile($id)
+	{
+		return APP_PATH.'data'.DS.$this->saveContentPath.DS
+			.$this->saveContentType.DS
+			.String::getIdRadixPath($id, $this->pathRadix).DS.$id.'.txt';
 	}
 }
 
