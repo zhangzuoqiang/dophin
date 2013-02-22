@@ -26,22 +26,6 @@ define('DS', DIRECTORY_SEPARATOR);
  */
 defined('CORE_PATH') or define('CORE_PATH',dirname(__FILE__).DS);
 
-//初始化配置
-include CORE_PATH.'config/core.cfg.php';
-include APP_PATH.'config/main.cfg.php';
-
-/**
- * 定义程序是否调试模式
- */
-defined('APP_DEBUG') or define('APP_DEBUG', $GLOBALS['_debug']);
-$_REQUEST = array_merge($_COOKIE, $_GET, $_POST);
-
-// 类自动加载处理方法
-spl_autoload_register(array('Core', 'autoload'));
-if ($_session_user) {
-	$session = new Session($_session_type);
-}
-
 class Core
 {
 	/**
@@ -682,3 +666,19 @@ function C($cfgName, $cfgVal=null)
 }
 
 
+
+//初始化配置
+include CORE_PATH.'config/core.cfg.php';
+include APP_PATH.'config/main.cfg.php';
+
+/**
+ * 定义程序是否调试模式
+ */
+defined('APP_DEBUG') or define('APP_DEBUG', $GLOBALS['_debug']);
+$_REQUEST = array_merge($_COOKIE, $_GET, $_POST);
+
+// 类自动加载处理方法
+spl_autoload_register(array('Core', 'autoload'));
+if ($_session_user) {
+	$session = new Session($_session_type);
+}

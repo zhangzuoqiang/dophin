@@ -92,13 +92,13 @@ class Db
 			return self::connect($cfg, $sign);
 		} else {
 			return self::connect(array(
-				'db_driver'		=> $GLOBALS['_db_driver'],
-				'db_host'		=> $GLOBALS['_db_host'],
-				'db_name'		=> $GLOBALS['_db_name'],
-				'db_user'		=> $GLOBALS['_db_user'],
-				'db_pass'		=> $GLOBALS['_db_pass'],
-				'db_charset'	=> $GLOBALS['_db_charset'],
-				'db_persistent'	=> $GLOBALS['_db_persistent']
+				'db_driver'		=> $GLOBALS['_db']['driver'],
+				'db_host'		=> $GLOBALS['_db']['host'],
+				'db_name'		=> $GLOBALS['_db']['name'],
+				'db_user'		=> $GLOBALS['_db']['user'],
+				'db_pass'		=> $GLOBALS['_db']['pass'],
+				'db_charset'	=> $GLOBALS['_db']['charset'],
+				'db_persistent'	=> $GLOBALS['_db']['persistent']
 			));
 		}
 	}

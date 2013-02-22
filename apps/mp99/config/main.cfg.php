@@ -14,15 +14,17 @@ $_path_radix = 200;
  * 数据库配置
  * 使用sqlite时才用到db_path
  */
-$_db_path		= '';
-$_db_driver		= 'mysql';
-$_db_host		= 'localhost';
-$_db_name		= 'zf';
-$_db_user		= 'admin';
-$_db_pass		= '123456';
-$_db_charset	= 'utf8';
-$_db_persistent	= true;
-$_tbl_pre		= '';
+$_db	= array(
+	'path'			=> '',
+	'driver'		=> 'mysql',
+	'host'			=> 'localhost',
+	'name'			=> 'mp99',
+	'user'			=> 'admin',
+	'pass'			=> '123456',
+	'charset'		=> 'utf8',
+	'persistent'	=> true,
+	'tbl_pre'		=> '',
+);
 	
 /**
  * 缓存配置(memcahe等)

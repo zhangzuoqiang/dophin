@@ -7,10 +7,17 @@ error_reporting(2047);
 $_debug					= true;
 $_output_process_time	= false;
 
-$_db_host		= '10.5.15.183';
-$_db_name		= 'mp99';
-$_db_user		= 'admin';
-$_db_pass		= '123456';
+$_db	= array(
+	'path'			=> '',
+	'driver'		=> 'mysql',
+	'host'			=> 'localhost',
+	'name'			=> 'mp99',
+	'user'			=> 'admin',
+	'pass'			=> '123456',
+	'charset'		=> 'utf8',
+	'persistent'	=> true,
+	'tbl_pre'		=> '',
+);
 
 /**
  * 链接地址

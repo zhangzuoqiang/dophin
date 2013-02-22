@@ -27,15 +27,17 @@ $_path_radix = 1000;
  * 数据库配置
  * 使用sqlite时才用到db_path
  */
-$_db_path		= '';
-$_db_driver		= 'mysql';
-$_db_host		= 'localhost';
-$_db_name		= 'antphp';
-$_db_user		= 'antphp';
-$_db_pass		= '123456';
-$_db_charset	= 'utf8';
-$_db_persistent	= true;
-$_tbl_pre		= '';
+$_db	= array(
+	'path'		=> '',
+	'driver'	=> 'mysql',
+	'host'		=> 'localhost',
+	'name'		=> 'dophin',
+	'user'		=> 'admin',
+	'pass'		=> '123456',
+	'charset'	=> 'utf8',
+	'persistent'=> true,
+	'tbl_pre'	=> '',
+);
 	
 /**
  * 缓存配置(memcahe等)

@@ -385,13 +385,12 @@
 
         </div>
 
-<!--
 <div id="dialog-profile">
   <form action="">
     昵称：<input id="nickname" value="{$nickname}" />
   </form>
 </div>
--->
+
 
         <!--[if lt IE 9]>
             <script src="http://lib.sinaapp.com/js/jquery/1.9.0/jquery.min.js"></script>

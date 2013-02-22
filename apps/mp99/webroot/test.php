@@ -18,6 +18,9 @@ echo PHP_SAPI;
 
 echo "\n";
 
+var_export(get_defined_constants(true));
+exit;
+
 // echo UMath::dec2any(44);
 // exit;
 
