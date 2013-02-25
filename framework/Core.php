@@ -345,16 +345,16 @@ class Core
 			$filename = CORE_PATH . DS . self::$coreClass[$className];
 		} else if (0 === strpos($className, 'Model_')) {// 模型类
 			$className = ucfirst($className);
-			$filename = APP_PATH.'model'.DS.substr($className, 6).'.php';
+			$filename = APP_PATH.'model/'.substr($className, 6).'.php';
 		} else if (0 === strpos($className, 'Controller_')) {// 模型类
-			$filename = APP_PATH.'controller'.DS.lcfirst(substr($className, 11)).'.co.php';
+			$filename = APP_PATH.'controller/'.lcfirst(substr($className, 11)).'.co.php';
 		} else if (false !== strpos($className, '_')) {// 下划线分隔目录和类
 			$className = lcfirst($className);
-			$filename = APP_PATH.'component'.DS.strtr($className, '_', DS).'.class.php';
+			$filename = APP_PATH.'component/'.strtr($className, '_', '/').'.class.php';
 		} else {
-			$filename = APP_PATH.'component'.DS.$className.'.class.php';
+			$filename = APP_PATH.'component/'.$className.'.class.php';
 			if (!is_file($filename)) {
-				$filename = CORE_PATH.'component'.DS.$className.'.class.php';
+				$filename = CORE_PATH.'component/'.$className.'.class.php';
 			}
 			if (!is_file($filename)) {
 				return false;

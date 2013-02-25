@@ -1,0 +1,57 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+<div id="dialog-profile">
+	<form action="" class="niceform">
+		<input id="nickname" value="{$nickname}" />
+		
+                <br/>
+                <br/>
+            	<select size="4" name="languages[]" id="languages" multiple="multiple">
+                	<option value="English">English</option>
+                    <option value="French">French</option>
+                    <option value="Spanish">Spanish</option>
+                    <option value="Italian">Italian</option>
+                    <option value="Chinese">Chinese</option>
+                    <option value="Japanese">Japanese</option>
+                    <option value="Russian">Russian</option>
+                    <option value="Esperanto">Esperanto</option>
+                </select>
+                <br/>
+                
+                
+            <dd>
+                <input type="checkbox" name="interests[]" id="interestsNews" value="News" /><label for="interestsNews" class="opt">News</label>
+                <input type="checkbox" name="interests[]" id="interestsSports" value="Sports" /><label for="interestsSports" class="opt">Sports</label>
+                <input type="checkbox" name="interests[]" id="interestsEntertainment" value="Entertainment" /><label for="interestsEntertainment" class="opt">Entertainment</label>
+                <input type="checkbox" name="interests[]" id="interestsCars" value="Cars" /><label for="interestsCars" class="opt">Automotive</label>
+                <input type="checkbox" name="interests[]" id="interestsTechnology" value="Technology" /><label for="interestsTechnology" class="opt">Technology</label>
+            </dd>
+                
+				<select name="sdf" id="sdf">
+					<option value='option1'>333333333</option>
+					<option value='option2'>4444444</option>
+				</select>
+	</form>
+</div>
+
+            <script src="http://code.jquery.com/jquery-2.0.0b1.js"></script>
+    <script src="http://code.jquery.com/jquery-migrate-1.1.1.js"></script>
+
+<script src="http://e10v.com/js/niceforms/niceforms.js" type="text/javascript"></script>
+<link rel="stylesheet" href="http://e10v.com/js/niceforms/niceforms.css" />
+<script>
+var imagesPath = 'http://e10v.com/js/niceforms/images/';
+$(function(){
+	
+	//$('input').uniform();
+	//$("select").uniform();
+	//$("form").jqTransform();
+});
+</script>
+</body>
+</html>
